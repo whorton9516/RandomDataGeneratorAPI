@@ -8,7 +8,15 @@ public class DataGenerator : IDataGenerator
 {
     public IEnumerable<Address> GenerateAddresses(int count)
     {
-        throw new NotImplementedException();
+        var faker = new Faker();
+        return faker.Make(count, () => new Address
+        {
+            Street = faker.Address.StreetAddress(),
+            City = faker.Address.City(),
+            State = faker.Address.State(),
+            ZipCode = faker.Address.ZipCode(),
+            Country = faker.Address.Country()
+        });
     }
 
     public IEnumerable<string> GenerateEmails(int count)
@@ -37,6 +45,21 @@ public class DataGenerator : IDataGenerator
 
     public IEnumerable<User> GenerateUsers(int count)
     {
-        throw new NotImplementedException();
+        var faker = new Faker();
+        return faker.Make(count, () => new User
+        {
+            Name = faker.Person.FullName,
+            Address = new Address
+            {
+                Street = faker.Address.StreetAddress(),
+                City = faker.Address.City(),
+                State = faker.Address.State(),
+                ZipCode = faker.Address.ZipCode(),
+                Country = faker.Address.Country()
+            },
+            Email = faker.Person.Email,
+            PhoneNumber = faker.Person.Phone,
+            Username = faker.Person.UserName
+        });
     }
 }
